@@ -27,9 +27,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                script {
-                    docker.build("khanblpr/fullstack:${TAG}")
-                }
+                sh "docker build khanblpr/fullstack:${TAG}"
             }
         }
        
