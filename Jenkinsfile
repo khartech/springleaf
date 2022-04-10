@@ -27,7 +27,8 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh "docker build khanblpr/fullstack:${TAG}"
+                checkout scm
+                sh "docker build -t khanblpr/fullstack:${TAG} ."
             }
         }
        
