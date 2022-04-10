@@ -8,6 +8,8 @@ pipeline {
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS=credentials('khartech')
+        DOCKERIMAGENAME="khartech/springleaf:${TAG}"
     }
     stages {
         stage('Build Jar') {
@@ -28,11 +30,20 @@ pipeline {
         stage('Docker Build') {
             steps {
                 checkout scm
-                sh "docker build -t khartech/springleaf:${TAG} ."
+                sh "docker build -t ${DOCKERIMAGENAME} ."
             }
         }
-       
-        
+//        stage('Docker Login') {
+// 			steps {
+// 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+// 			}
+// 		}
+//         stage('Push') {
+
+// 			steps {
+// 				sh 'docker push thetips4you/nodeapp_test:latest'
+// 			}
+// 		}
         
     }
 }
