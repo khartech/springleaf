@@ -33,17 +33,17 @@ pipeline {
                 sh "docker build -t ${DOCKERIMAGENAME} ."
             }
         }
-//        stage('Docker Login') {
-// 			steps {
-// 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-// 			}
-// 		}
-//         stage('Push') {
+       stage('Docker Login') {
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+        stage('Docker Push') {
 
-// 			steps {
-// 				sh 'docker push thetips4you/nodeapp_test:latest'
-// 			}
-// 		}
+			steps {
+				sh "docker push ${DOCKERIMAGENAME}"
+			}
+		}
         
     }
 }
