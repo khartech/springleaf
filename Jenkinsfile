@@ -28,7 +28,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 checkout scm
-                sh "docker build -t khanblpr/fullstack:${TAG} ."
+                sh "docker build -t khartech/springleaf:${TAG} ."
             }
         }
        
