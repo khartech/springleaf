@@ -5,15 +5,15 @@ pipeline {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "M3"
     }
-
+    environment {
+        DATE = new Date().format('yy.M')
+        TAG = "${DATE}.${BUILD_NUMBER}"
+    }
     stages {
-        stage('Build') {
+        stage('Build Jar') {
             steps {
                 // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+               sh 'mvn clean package'
             }
 
             post {
@@ -25,11 +25,15 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Docker Build') {
             steps {
-                sh 'mvn test'
+                script {
+                    docker.build("khanblpr/fullstack:${TAG}")
+                }
             }
         }
+       
+        
         
     }
 }
